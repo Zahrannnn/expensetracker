@@ -68,7 +68,7 @@ A modern, production-ready Progressive Web App for managing expenses, income, an
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/expense-tracker.git
+git clone https://github.com/Zahrannnn/expensetracker.git
 cd expense-tracker
 
 # Install dependencies
@@ -359,12 +359,7 @@ Contributions are welcome! Here's how:
 
 ## 🐛 Bug Reports & Feature Requests
 
-Found a bug or have a feature idea?
 
-- [Report a Bug](https://github.com/yourusername/expense-tracker/issues/new?template=bug_report.md)
-- [Request a Feature](https://github.com/yourusername/expense-tracker/issues/new?template=feature_request.md)
-
----
 
 ## 📊 Performance
 
@@ -416,7 +411,7 @@ Special thanks to these amazing projects:
 
 ## 📞 Contact
 
-**Project Link:** [https://github.com/yourusername/expense-tracker](https://github.com/yourusername/expense-tracker)
+**Project Link:** [https://github.com/Zahrannnn/expensetracker](https://github.com/Zahrannnn/expensetracker)
 
 **Live Demo:** [https://expense-tracker.vercel.app](https://expense-tracker.vercel.app)
 
