@@ -49,6 +49,12 @@
     "count": "{count} مصروف",
     "noExpenses": "مافيش مصاريف لسه",
     "noExpensesDescription": "ابدأ سجّل مصاريفك",
+    "pagination": {
+      "showing": "عرض {from} إلى {to} من {total}",
+      "page": "صفحة {current} من {total}",
+      "previous": "السابق",
+      "next": "التالي"
+    },
     "categories": {
       "FastFood": "أكل سريع",
       "Drinks": "مشروبات",
@@ -84,6 +90,7 @@
     }
   },
   "debt": {
+    "due": "ميعاد السداد",
     "unpaidCount": "{count} غير مدفوع",
     "paidCount": "{count} مدفوع",
     "borrowed": "استلفت",
