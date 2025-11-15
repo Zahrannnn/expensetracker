@@ -24,7 +24,7 @@ import {
 import { useExpenseActions } from '@/lib/useExpenseStore';
 import { CATEGORIES } from '@/types/expense';
 import { toast } from 'sonner';
-import { ConfettiEffect } from './ConfettiEffect';
+import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
 
 export function AddExpenseModal() {
   const { addExpense } = useExpenseActions();

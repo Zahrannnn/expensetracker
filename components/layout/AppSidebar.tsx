@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import {
   Home,
   BarChart3,
@@ -30,35 +31,38 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useTheme } from '@/components/ThemeProvider';
+import { useTheme } from '@/components/layout/ThemeProvider';
 import { Button } from '@/components/ui/button';
-
-const menuItems = [
-  {
-    title: 'Dashboard',
-    url: '/',
-    icon: Home,
-  },
-  {
-    title: 'Income',
-    url: '/income',
-    icon: DollarSign,
-  },
-  {
-    title: 'Analytics',
-    url: '/analytics',
-    icon: BarChart3,
-  },
-  {
-    title: 'Settings',
-    url: '/settings',
-    icon: Settings,
-  },
-];
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations();
   const { theme, setTheme } = useTheme();
+  
+  const menuItems = [
+    {
+      titleKey: 'nav.dashboard',
+      url: `/${locale}`,
+      icon: Home,
+    },
+    {
+      titleKey: 'nav.income',
+      url: `/${locale}/income`,
+      icon: DollarSign,
+    },
+    {
+      titleKey: 'nav.analytics',
+      url: `/${locale}/analytics`,
+      icon: BarChart3,
+    },
+    {
+      titleKey: 'nav.settings',
+      url: `/${locale}/settings`,
+      icon: Settings,
+    },
+  ];
 
   const getThemeIcon = () => {
     if (theme === 'dark') return <Moon className="h-4 w-4" />;
@@ -66,35 +70,38 @@ export function AppSidebar() {
     return <Monitor className="h-4 w-4" />;
   };
 
+  // Set sidebar position based on language direction
+  const sidebarSide = locale === 'ar' ? 'right' : 'left';
+
   return (
-    <Sidebar>
+    <Sidebar side={sidebarSide}>
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-4 py-4">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Wallet className="h-5 w-5" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold">ExpenseTracker</span>
-            <span className="text-xs text-muted-foreground">Manage your finances</span>
+            <span className="text-lg font-bold">{t('common.appName')}</span>
+            <span className="text-xs text-muted-foreground">{t('common.appSubtitle')}</span>
           </div>
         </div>
       </SidebarHeader>
       
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('nav.dashboard')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.titleKey}>
                   <SidebarMenuButton
                     asChild
                     isActive={pathname === item.url}
-                    tooltip={item.title}
+                    tooltip={t(item.titleKey)}
                   >
                     <Link href={item.url}>
                       <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
+                      <span>{t(item.titleKey)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -106,25 +113,26 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t border-sidebar-border">
         <div className="p-4 space-y-2">
+          <LanguageSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-full justify-start gap-2">
                 {getThemeIcon()}
-                <span className="capitalize">{theme} mode</span>
+                <span className="capitalize">{t(`theme.${theme}`)} {t('theme.mode')}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[200px]">
               <DropdownMenuItem onClick={() => setTheme('light')}>
                 <Sun className="h-4 w-4 mr-2" />
-                Light
+                {t('theme.light')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme('dark')}>
                 <Moon className="h-4 w-4 mr-2" />
-                Dark
+                {t('theme.dark')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme('system')}>
                 <Monitor className="h-4 w-4 mr-2" />
-                System
+                {t('theme.system')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

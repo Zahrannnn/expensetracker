@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useExpenses, useIncomes } from '@/lib/useExpenseStore';
 import { getExpensesByMonth } from '@/lib/helpers';
 import {
-  BarChart,
+  ComposedChart,
   Bar,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -23,8 +24,14 @@ export function IncomeVsExpensesChart() {
   const incomes = useIncomes();
 
   const chartData = useMemo(() => {
-    // Get all unique months from both expenses and incomes
-    const expensesByMonth = getExpensesByMonth(expenses);
+    // Convert expenses to yyyy-MM format for consistency
+    const expensesByMonth = expenses.reduce((acc, expense) => {
+      const month = format(new Date(expense.date), 'yyyy-MM');
+      acc[month] = (acc[month] || 0) + expense.amount;
+      return acc;
+    }, {} as Record<string, number>);
+
+    // Incomes already use yyyy-MM format
     const incomesByMonth = incomes.reduce((acc, income) => {
       if (!acc[income.month]) {
         acc[income.month] = 0;
@@ -94,14 +101,20 @@ export function IncomeVsExpensesChart() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
+        <ResponsiveContainer width="100%" height={350}>
+          <ComposedChart data={chartData}>
+            <CartesianGrid className='text-white' strokeDasharray="3 3" opacity={0.3} />
             <XAxis 
               dataKey="month" 
-              tick={{ fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fill: 'currentColor' }}
+              stroke="hsl(var(--border))"
+              className="text-muted-foreground"
             />
-            <YAxis tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+            <YAxis 
+              tick={{ fill: 'currentColor' }}
+              stroke="hsl(var(--border))"
+              className="text-muted-foreground"
+            />
             <Tooltip
               formatter={(value: number) => formatCurrency(value)}
               contentStyle={{
@@ -111,9 +124,30 @@ export function IncomeVsExpensesChart() {
               }}
             />
             <Legend />
-            <Bar dataKey="income" fill="#10b981" name="Income" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="expenses" fill="#ef4444" name="Expenses" radius={[8, 8, 0, 0]} />
-          </BarChart>
+            <Bar 
+              dataKey="income" 
+              fill="#10b981" 
+              name="Income" 
+              radius={[8, 8, 0, 0]}
+              barSize={60}
+            />
+            <Bar 
+              dataKey="expenses" 
+              fill="#ef4444" 
+              name="Expenses" 
+              radius={[8, 8, 0, 0]}
+              barSize={60}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="savings" 
+              stroke="#8b5cf6" 
+              strokeWidth={3}
+              dot={{ fill: '#8b5cf6', r: 5 }}
+              activeDot={{ r: 7 }}
+              name="Net Savings"
+            />
+          </ComposedChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>

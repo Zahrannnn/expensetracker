@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useDebts, useDebtActions } from '@/lib/useExpenseStore';
@@ -7,10 +9,11 @@ import { formatCurrency, formatDate } from '@/lib/helpers';
 import { HandCoins, Check, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { ConfettiEffect } from './ConfettiEffect';
-import { useState } from 'react';
+import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
 
 export function DebtList() {
+  const t = useTranslations('debt');
+  const tToast = useTranslations('toast');
   const debts = useDebts();
   const { markDebtAsPaid, deleteDebt } = useDebtActions();
   const [showConfetti, setShowConfetti] = useState(false);
@@ -20,7 +23,7 @@ export function DebtList() {
 
   const handleMarkPaid = (id: string, creditor: string, amount: number) => {
     markDebtAsPaid(id);
-    toast.success('Debt paid! 🎉', {
+    toast.success(tToast('debtPaid'), {
       description: `${creditor} - ${formatCurrency(amount)}`,
     });
     setShowConfetti(true);
@@ -29,7 +32,7 @@ export function DebtList() {
 
   const handleDelete = (id: string) => {
     deleteDebt(id);
-    toast.success('Debt record deleted');
+    toast.success(tToast('debtDeleted'));
   };
 
   if (debts.length === 0) {
@@ -38,13 +41,13 @@ export function DebtList() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <HandCoins className="h-5 w-5" />
-            Debts & Loans
+            {t('title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-muted-foreground">
             <HandCoins className="h-12 w-12 mx-auto mb-4 opacity-20" />
-            <p>No debts recorded</p>
+            <p>{t('noDebts')}</p>
           </div>
         </CardContent>
       </Card>
@@ -58,17 +61,17 @@ export function DebtList() {
           <CardTitle className="flex items-center gap-2 justify-between">
             <div className="flex items-center gap-2">
               <HandCoins className="h-5 w-5" />
-              Debts & Loans
+              {t('title')}
             </div>
             <span className="text-sm font-normal text-muted-foreground">
-              {unpaidDebts.length} unpaid
+              {t('unpaidCount', { count: unpaidDebts.length })}
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {unpaidDebts.length > 0 && (
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-muted-foreground">Unpaid</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">{t('unpaid')}</h3>
               {unpaidDebts.map((debt) => (
                 <motion.div
                   key={debt.id}
@@ -88,8 +91,8 @@ export function DebtList() {
                       <p className="text-sm text-muted-foreground">{debt.reason}</p>
                     )}
                     <div className="text-xs text-muted-foreground mt-1">
-                      Borrowed: {formatDate(debt.borrowedDate)}
-                      {debt.dueDate && ` • Due: ${formatDate(debt.dueDate)}`}
+                      {t('borrowed')}: {formatDate(debt.borrowedDate)}
+                      {debt.dueDate && ` • ${t('due')}: ${formatDate(debt.dueDate)}`}
                     </div>
                   </div>
                   <div className="flex gap-1">
@@ -117,7 +120,7 @@ export function DebtList() {
 
           {paidDebts.length > 0 && (
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-muted-foreground">Paid</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">{t('paid')}</h3>
               {paidDebts.map((debt) => (
                 <motion.div
                   key={debt.id}
@@ -134,7 +137,7 @@ export function DebtList() {
                     </div>
                     {debt.paidDate && (
                       <p className="text-xs text-muted-foreground">
-                        Paid on {formatDate(debt.paidDate)}
+                        {t('paidOn', { date: formatDate(debt.paidDate) })}
                       </p>
                     )}
                   </div>

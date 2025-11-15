@@ -1,13 +1,15 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ProgressRing } from './ProgressRing';
+import { ProgressRing } from '@/components/shared/ProgressRing';
 import { useExpenses, useIncomes, useDebts } from '@/lib/useExpenseStore';
 import { formatCurrency, getCurrentMonth, filterExpensesByMonth } from '@/lib/helpers';
 import { TrendingUp, AlertCircle, Wallet } from 'lucide-react';
 
 export function BudgetOverview() {
+  const t = useTranslations('budget');
   const expenses = useExpenses();
   const incomes = useIncomes();
   const debts = useDebts();
@@ -41,7 +43,7 @@ export function BudgetOverview() {
         <CardHeader>
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Wallet className="h-4 w-4" />
-            Budget Status
+            {t('status')}
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center">
@@ -50,7 +52,7 @@ export function BudgetOverview() {
             {formatCurrency(summary.totalExpenses)} / {formatCurrency(summary.totalIncome)}
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {summary.totalIncome === 0 ? 'Add income to track budget' : 'of income spent'}
+            {summary.totalIncome === 0 ? t('addIncomeToTrack') : t('ofIncomeSpent')}
           </p>
         </CardContent>
       </Card>
@@ -59,14 +61,14 @@ export function BudgetOverview() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-sm font-medium">
             <TrendingUp className="h-4 w-4 text-green-500" />
-            Total Income
+            {t('totalIncome')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-bold text-green-600">
             {formatCurrency(summary.totalIncome)}
           </div>
-          <p className="text-xs text-muted-foreground mt-2">This month</p>
+          <p className="text-xs text-muted-foreground mt-2">{t('thisMonth')}</p>
         </CardContent>
       </Card>
 
@@ -78,7 +80,7 @@ export function BudgetOverview() {
             ) : (
               <AlertCircle className="h-4 w-4 text-red-500" />
             )}
-            Remaining
+            {t('remaining')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -86,8 +88,8 @@ export function BudgetOverview() {
             {formatCurrency(summary.remaining)}
           </div>
           <p className="text-xs text-muted-foreground mt-2">
-            Savings: {summary.savingsRate.toFixed(1)}%
-            {summary.totalDebts > 0 && ` • Debts: ${formatCurrency(summary.totalDebts)}`}
+            {t('savings')}: {summary.savingsRate.toFixed(1)}%
+            {summary.totalDebts > 0 && ` • ${t('debts')}: ${formatCurrency(summary.totalDebts)}`}
           </p>
         </CardContent>
       </Card>

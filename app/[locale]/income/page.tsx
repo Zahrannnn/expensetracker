@@ -1,6 +1,7 @@
 'use client';
 
-import { HydrationGuard } from '@/components/HydrationGuard';
+import { useTranslations } from 'next-intl';
+import { HydrationGuard } from '@/components/shared/HydrationGuard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIncomes, useIncomeActions } from '@/lib/useExpenseStore';
 import { formatCurrency, formatDate } from '@/lib/helpers';
@@ -16,17 +17,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ActionsMenu } from '@/components/ActionsMenu';
+import { ActionsMenu } from '@/components/dashboard/ActionsMenu';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 
 export default function IncomePage() {
+  const t = useTranslations('income');
+  const tToast = useTranslations('toast');
   const incomes = useIncomes();
   const { deleteIncome } = useIncomeActions();
 
   const handleDelete = (id: string, source: string, amount: number) => {
     deleteIncome(id);
-    toast.success('Income deleted', {
+    toast.success(tToast('incomeDeleted'), {
       description: `${source} - ${formatCurrency(amount)}`,
     });
   };
@@ -50,9 +53,9 @@ export default function IncomePage() {
       <div className="space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Income</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
             <p className="text-muted-foreground">
-              Track your income sources
+              {t('subtitle')}
             </p>
           </div>
           <ActionsMenu />
@@ -62,15 +65,15 @@ export default function IncomePage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-green-600" />
-              Total Income: {formatCurrency(totalIncome)}
+              {t('totalIncome')}: {formatCurrency(totalIncome)}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {incomes.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 <DollarSign className="h-16 w-16 mx-auto mb-4 opacity-20" />
-                <p className="text-lg mb-2">No income recorded</p>
-                <p className="text-sm">Start tracking your income to see insights</p>
+                <p className="text-lg mb-2">{t('noIncome')}</p>
+                <p className="text-sm">{t('startTracking')}</p>
               </div>
             ) : (
               <div className="space-y-8">
@@ -83,16 +86,16 @@ export default function IncomePage() {
                           {format(new Date(month + '-01'), 'MMMM yyyy')}
                         </h3>
                         <span className="text-sm text-muted-foreground">
-                          Total: {formatCurrency(monthTotal)}
+                          {t('total')}: {formatCurrency(monthTotal)}
                         </span>
                       </div>
                       <div className="rounded-md border">
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead>Date</TableHead>
-                              <TableHead>Source</TableHead>
-                              <TableHead className="text-right">Amount</TableHead>
+                              <TableHead>{t('date')}</TableHead>
+                              <TableHead>{t('source')}</TableHead>
+                              <TableHead className="text-right">{t('amount')}</TableHead>
                               <TableHead className="w-[100px]"></TableHead>
                             </TableRow>
                           </TableHeader>

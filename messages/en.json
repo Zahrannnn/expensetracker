@@ -1,0 +1,192 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "income": "Income",
+    "analytics": "Analytics",
+    "settings": "Settings"
+  },
+  "common": {
+    "currency": "EGP",
+    "appName": "ExpenseTracker",
+    "appSubtitle": "Manage your finances"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Track and manage your finances"
+  },
+  "actions": {
+    "add": "Add Transaction",
+    "addTransaction": "Add Transaction",
+   "recordDebt": "Record Debt",
+
+    "recordTransaction": "Record Transaction",
+    "addExpense": "Add Expense",
+    "addIncome": "Add Income",
+    "addDebt": "Add Debt",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "export": "Export",
+    "clear": "Clear",
+    "exportJSON": "Export JSON",
+    "exportCSV": "Export CSV",
+    "clearAll": "Clear All Expenses",
+    "markPaid": "Mark as Paid"
+  },
+  "expense": {
+    "selectCategory": "Select category",
+    "actions": "Actions",
+    "whatWasThisFor": "What was this for?",
+    "title": "Expenses",
+    "amount": "Amount",
+    "category": "Category",
+    "note": "Note",
+    "date": "Date",
+    "optional": "(Optional)",
+    "required": "*",
+    "recordPurchase": "Record a purchase or payment",
+    "total": "Total",
+    "count": "{count} expenses",
+    "noExpenses": "No expenses yet",
+    "noExpensesDescription": "Start tracking your spending",
+    "categories": {
+      "FastFood": "FastFood",
+      "Drinks": "Drinks",
+      "Transportation": "Transportation",
+      "Clothing": "Clothing",
+      "Entertainment": "Entertainment",
+      "Bills & Utilities": "Bills & Utilities",
+      "Healthcare": "Healthcare",
+      "Other": "Other"
+    }
+  },
+  "income": {
+    "total": "Total",
+    "title": "Income",
+    "recordMoneyReceived": "Record money received",
+    "selectSource": "Select source",
+    "date": "Date",
+    "amount": "Amount",
+    "startTracking": "Start tracking your income to see insights",
+    "subtitle": "Track your income sources",
+    "source": "Source",
+    "recordMoney": "Record money received",
+    "totalIncome": "Total Income",
+    "noIncome": "No income recorded",
+    "noIncomeDescription": "Start tracking your income to see insights",
+    "sources": {
+      "Salary": "Salary",
+      "Freelance": "Freelance",
+      "Business": "Business",
+      "Investment": "Investment",
+      "Gift": "Gift",
+      "Other": "Other"
+    }
+  },
+  "debt": {
+    "unpaidCount": "{count} unpaid",
+    "paidCount": "{count} paid",
+    "borrowed": "Borrowed",
+    "optional": "(Optional)",
+    "amount": "Amount",
+    "borrowedFrom": "Borrowed From",
+    "title": "Debts & Loans",
+    "addDebt": "Record Borrowed Money",
+    "recordBorrowedMoney": "Record borrowed money",
+    "creditor": "Borrowed From",
+    "reason": "Reason",
+    "borrowedDate": "Borrowed Date",
+    "dueDate": "Due Date",
+    "unpaid": "Unpaid",
+    "paid": "Paid",
+    "recordBorrowed": "Record borrowed money",
+    "noDebts": "No debts recorded",
+    "paidOn": "Paid on {date}",
+    "personOrInstitution": "Person or institution",
+    "whatWasItFor": "What was it for?"
+  },
+  "budget": {
+    "status": "Budget Status",
+    "totalIncome": "Total Income",
+    "remaining": "Remaining",
+    "spent": "of income spent",
+    "savings": "Savings",
+    "thisMonth": "This month",
+    "addIncomeToTrack": "Add income to track budget",
+    "debts": "Debts",
+    "ofIncomeSpent": "of income spent"
+  },
+  "summary": {
+    "totalThisMonth": "Total This Month",
+    "averagePerDay": "Average Per Day",
+    "transactions": "{count} transaction(s)",
+    "monthly": "Monthly Summary",
+    "totalSpending": "Total Spending",
+    "topCategory": "Most Expensive Category",
+    "expenseCount": "Number of Expenses",
+    "basedOnDate": "Based on current date"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Visualize your spending patterns and financial health",
+    "incomeVsExpenses": "Income vs Expenses",
+    "spendingByCategory": "Spending by Category",
+    "spendingOverTime": "Spending Over Time",
+    "noData": "No data available yet",
+    "netSavings": "Net",
+    "lastSixMonths": "Last 6 months"
+  },
+  "settings": {
+    "title": "Settings",
+    "exportJSON": "Export JSON",
+    "madeBy": "Made by",
+    "exportCSV": "Export CSV",
+    "clearAll": "Clear All Expenses",
+    "subtitle": "Manage your preferences and data",
+    "exportData": "Export Data",
+    "exportDescription": "Download your expense data in JSON or CSV format",
+    "dangerZone": "Danger Zone",
+    "clearAllExpenses": "Clear All Expenses",
+    "clearDescription": "Permanently delete all your expense records. This action cannot be undone.",
+    "about": "About",
+    "version": "Version",
+    "storage": "Storage",
+    "framework": "Framework",
+    "localStorage": "LocalStorage (Browser)",
+    "confirmClear": "Are you sure?",
+    "confirmClearDescription": "This will permanently delete all {count} expenses. This action cannot be undone.",
+    "cancelClear": "Cancel"
+  },
+  "filters": {
+    "allMonths": "All months",
+    "allCategories": "All categories",
+    "filterByMonth": "Filter by month",
+    "filterByCategory": "Filter by category"
+  },
+  "toast": {
+    
+    "debtDeleted": "Debt record deleted",
+    "expenseAdded": "Expense added successfully!",
+    "incomeAdded": "Income added!",
+    "debtRecorded": "Debt recorded",
+    "debtPaid": "Debt paid!",
+    "deleted": "Deleted",
+    "updated": "Updated",
+    "expenseUpdated": "Expense updated successfully!",
+    "expenseDeleted": "Expense deleted",
+    "incomeDeleted": "Income deleted",
+    "allExpensesCleared": "All expenses cleared",
+    "exportedToJSON": "Exported to JSON",
+    "exportedToCSV": "Exported to CSV",
+    "fillRequired": "Please fill in all required fields",
+    "deletedCount": "Deleted {count} expense(s)"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "mode": "mode"
+  }
+}
+

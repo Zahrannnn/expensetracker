@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExpenseRow } from './ExpenseRow';
-import { MonthlyFilter } from './MonthlyFilter';
-import { CategoryFilter } from './CategoryFilter';
+import { MonthlyFilter } from '@/components/filters/MonthlyFilter';
+import { CategoryFilter } from '@/components/filters/CategoryFilter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -23,6 +24,7 @@ import {
 import { Receipt } from 'lucide-react';
 
 export function ExpenseTable() {
+  const t = useTranslations('expense');
   const expenses = useExpenses();
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -44,7 +46,7 @@ export function ExpenseTable() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <CardTitle className="flex items-center gap-2">
             <Receipt className="h-5 w-5" />
-            Expenses
+            {t('title')}
           </CardTitle>
           <div className="flex gap-2 flex-wrap">
             <MonthlyFilter value={selectedMonth} onChange={setSelectedMonth} />
@@ -59,7 +61,7 @@ export function ExpenseTable() {
         {sortedExpenses.length === 0 ? (
           <div className="text-center py-12 text-muted-foreground">
             <Receipt className="h-12 w-12 mx-auto mb-4 opacity-20" />
-            <p>No expenses found</p>
+            <p>{t('noExpenses')}</p>
           </div>
         ) : (
           <>
@@ -67,11 +69,11 @@ export function ExpenseTable() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Note</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>{t('date')}</TableHead>
+                    <TableHead>{t('category')}</TableHead>
+                    <TableHead>{t('note')}</TableHead>
+                    <TableHead className="text-right">{t('amount')}</TableHead>
+                    <TableHead className="text-right">{t('actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -85,10 +87,10 @@ export function ExpenseTable() {
             </div>
             <div className="mt-4 flex justify-between items-center">
               <p className="text-sm text-muted-foreground">
-                {sortedExpenses.length} expense{sortedExpenses.length !== 1 ? 's' : ''}
+                {t('count', { count: sortedExpenses.length })}
               </p>
               <p className="text-lg font-bold">
-                Total: {formatCurrency(total)}
+                {t('total')}: {formatCurrency(total)}
               </p>
             </div>
           </>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Plus, DollarSign, HandCoins, Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,12 +20,18 @@ import { useExpenseActions, useIncomeActions, useDebtActions } from '@/lib/useEx
 import { CATEGORIES, INCOME_SOURCES } from '@/types/expense';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { ConfettiEffect } from './ConfettiEffect';
+import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
 import { motion } from 'framer-motion';
 
 type ActionType = 'expense' | 'income' | 'debt' | null;
 
 export function ActionsMenu() {
+  const t = useTranslations('actions');
+  const tExpense = useTranslations('expense');
+  const tIncome = useTranslations('income');
+  const tDebt = useTranslations('debt');
+  const tToast = useTranslations('toast');
+  
   const [openAction, setOpenAction] = useState<ActionType>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiType, setConfettiType] = useState<'success' | 'milestone' | 'achievement'>('success');
@@ -81,7 +88,7 @@ export function ActionsMenu() {
   const handleExpenseSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!expenseAmount || !expenseCategory) {
-      toast.error('Please fill in all required fields');
+      toast.error(tToast('fillRequired'));
       return;
     }
 
@@ -92,7 +99,7 @@ export function ActionsMenu() {
       date: new Date(expenseDate).toISOString(),
     });
 
-    toast.success('Expense added successfully!', {
+    toast.success(tToast('expenseAdded'), {
       description: `${expenseCategory} - $${parseFloat(expenseAmount).toFixed(2)}`,
     });
 
@@ -104,7 +111,7 @@ export function ActionsMenu() {
   const handleIncomeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!incomeAmount || !incomeSource) {
-      toast.error('Please fill in all required fields');
+      toast.error(tToast('fillRequired'));
       return;
     }
 
@@ -118,7 +125,7 @@ export function ActionsMenu() {
       month: format(incomeDateObj, 'yyyy-MM'),
     });
 
-    toast.success('Income added! 💰', {
+    toast.success(tToast('incomeAdded'), {
       description: `${incomeSource} - $${parsedAmount.toFixed(2)}`,
     });
 
@@ -130,7 +137,7 @@ export function ActionsMenu() {
   const handleDebtSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!debtAmount || !debtCreditor) {
-      toast.error('Please fill in required fields');
+      toast.error(tToast('fillRequired'));
       return;
     }
 
@@ -144,7 +151,7 @@ export function ActionsMenu() {
       dueDate: debtDueDate ? new Date(debtDueDate).toISOString() : undefined,
     });
 
-    toast.info('Debt recorded', {
+    toast.info(tToast('debtRecorded'), {
       description: `${debtCreditor} - $${parsedAmount.toFixed(2)}`,
     });
 
@@ -158,32 +165,32 @@ export function ActionsMenu() {
         <DropdownMenuTrigger asChild>
           <Button size="lg" className="gap-2 shadow-lg">
             <Plus className="h-5 w-5" />
-            <span className="hidden sm:inline">Add Transaction</span>
-            <span className="sm:hidden">Add</span>
+            <span className="hidden sm:inline">{t('addTransaction')}</span>
+            <span className="sm:hidden">{t('add')}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>Record Transaction</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('recordTransaction')}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setOpenAction('expense')} className="gap-2 cursor-pointer">
             <Receipt className="h-4 w-4 text-red-600" />
             <div className="flex flex-col">
-              <span className="font-medium">Add Expense</span>
-              <span className="text-xs text-muted-foreground">Record a purchase or payment</span>
+              <span className="font-medium">{t('addExpense')}</span>
+              <span className="text-xs text-muted-foreground">{tExpense('recordPurchase')}</span>
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpenAction('income')} className="gap-2 cursor-pointer">
             <DollarSign className="h-4 w-4 text-green-600" />
             <div className="flex flex-col">
-              <span className="font-medium">Add Income</span>
-              <span className="text-xs text-muted-foreground">Record money received</span>
+              <span className="font-medium">{t('addIncome')}</span>
+              <span className="text-xs text-muted-foreground">{tIncome('recordMoneyReceived')}</span>
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpenAction('debt')} className="gap-2 cursor-pointer">
             <HandCoins className="h-4 w-4 text-orange-600" />
             <div className="flex flex-col">
-              <span className="font-medium">Add Debt</span>
-              <span className="text-xs text-muted-foreground">Record borrowed money</span>
+              <span className="font-medium">{t('addDebt')}</span>
+              <span className="text-xs text-muted-foreground">{tDebt('recordBorrowedMoney')}</span>
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -195,12 +202,12 @@ export function ActionsMenu() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Receipt className="h-5 w-5 text-red-600" />
-              Add Expense
+              {t('addExpense')}
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleExpenseSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="expense-amount">Amount *</Label>
+              <Label htmlFor="expense-amount">{tExpense('amount')} *</Label>
               <Input
                 id="expense-amount"
                 type="number"
@@ -213,32 +220,32 @@ export function ActionsMenu() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="expense-category">Category *</Label>
+              <Label htmlFor="expense-category">{tExpense('category')} *</Label>
               <Select value={expenseCategory} onValueChange={setExpenseCategory} required>
                 <SelectTrigger id="expense-category">
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder={tExpense('selectCategory')} />
                 </SelectTrigger>
                 <SelectContent>
                   {CATEGORIES.map((cat) => (
-                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    <SelectItem key={cat} value={cat}>{tExpense(`categories.${cat}`)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="expense-note">Note (Optional)</Label>
+              <Label htmlFor="expense-note">{tExpense('note')} {tExpense('optional')}</Label>
               <Input
                 id="expense-note"
                 type="text"
-                placeholder="What was this for?"
+                placeholder={tExpense('whatWasThisFor')}
                 value={expenseNote}
                 onChange={(e) => setExpenseNote(e.target.value)}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="expense-date">Date *</Label>
+              <Label htmlFor="expense-date">{tExpense('date')} *</Label>
               <Input
                 id="expense-date"
                 type="date"
@@ -250,11 +257,11 @@ export function ActionsMenu() {
 
             <div className="flex gap-3 pt-4">
               <Button type="button" variant="outline" onClick={() => setOpenAction(null)} className="flex-1">
-                Cancel
+                {t('cancel')}
               </Button>
               <Button type="submit" className="flex-1 bg-red-600 hover:bg-red-700">
                 <Plus className="h-4 w-4 mr-2" />
-                Add Expense
+                {t('addExpense')}
               </Button>
             </div>
           </form>
@@ -267,12 +274,12 @@ export function ActionsMenu() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-green-600" />
-              Add Income
+              {t('addIncome')}
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleIncomeSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="income-amount">Amount *</Label>
+              <Label htmlFor="income-amount">{tIncome('amount')} *</Label>
               <Input
                 id="income-amount"
                 type="number"
@@ -285,21 +292,21 @@ export function ActionsMenu() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="income-source">Source *</Label>
+              <Label htmlFor="income-source">{tIncome('source')} *</Label>
               <Select value={incomeSource} onValueChange={setIncomeSource} required>
                 <SelectTrigger id="income-source">
-                  <SelectValue placeholder="Select source" />
+                  <SelectValue placeholder={tIncome('selectSource')} />
                 </SelectTrigger>
                 <SelectContent>
                   {INCOME_SOURCES.map((s) => (
-                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                    <SelectItem key={s} value={s}>{tIncome(`sources.${s}`)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="income-date">Date *</Label>
+              <Label htmlFor="income-date">{tIncome('date')} *</Label>
               <Input
                 id="income-date"
                 type="date"
@@ -311,11 +318,11 @@ export function ActionsMenu() {
 
             <div className="flex gap-3 pt-4">
               <Button type="button" variant="outline" onClick={() => setOpenAction(null)} className="flex-1">
-                Cancel
+                {t('cancel')}
               </Button>
               <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700">
                 <Plus className="h-4 w-4 mr-2" />
-                Add Income
+                {t('addIncome')}
               </Button>
             </div>
           </form>
@@ -328,12 +335,12 @@ export function ActionsMenu() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <HandCoins className="h-5 w-5 text-orange-600" />
-              Record Borrowed Money
+              {tDebt('addDebt')}
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleDebtSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="debt-amount">Amount *</Label>
+              <Label htmlFor="debt-amount">{tDebt('amount')} *</Label>
               <Input
                 id="debt-amount"
                 type="number"
@@ -346,11 +353,11 @@ export function ActionsMenu() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="debt-creditor">Borrowed From *</Label>
+              <Label htmlFor="debt-creditor">{tDebt('borrowedFrom')} *</Label>
               <Input
                 id="debt-creditor"
                 type="text"
-                placeholder="Person or institution"
+                placeholder={tDebt('personOrInstitution')}
                 value={debtCreditor}
                 onChange={(e) => setDebtCreditor(e.target.value)}
                 required
@@ -358,11 +365,11 @@ export function ActionsMenu() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="debt-reason">Reason (Optional)</Label>
+              <Label htmlFor="debt-reason">{tDebt('reason')} {tDebt('optional')}</Label>
               <Input
                 id="debt-reason"
                 type="text"
-                placeholder="What was it for?"
+                placeholder={tDebt('whatWasItFor')}
                 value={debtReason}
                 onChange={(e) => setDebtReason(e.target.value)}
               />
@@ -370,7 +377,7 @@ export function ActionsMenu() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="debt-borrowed-date">Borrowed Date *</Label>
+                <Label htmlFor="debt-borrowed-date">{tDebt('borrowedDate')} *</Label>
                 <Input
                   id="debt-borrowed-date"
                   type="date"
@@ -381,7 +388,7 @@ export function ActionsMenu() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="debt-due-date">Due Date (Optional)</Label>
+                <Label htmlFor="debt-due-date">{tDebt('dueDate')} {tDebt('optional')}</Label>
                 <Input
                   id="debt-due-date"
                   type="date"
@@ -393,11 +400,11 @@ export function ActionsMenu() {
 
             <div className="flex gap-3 pt-4">
               <Button type="button" variant="outline" onClick={() => setOpenAction(null)} className="flex-1">
-                Cancel
+                {t('cancel')}
               </Button>
               <Button type="submit" className="flex-1 bg-orange-600 hover:bg-orange-700">
                 <Plus className="h-4 w-4 mr-2" />
-                Record Debt
+                {t('recordDebt')}
               </Button>
             </div>
           </form>

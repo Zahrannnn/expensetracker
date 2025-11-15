@@ -55,7 +55,7 @@ export const DATE_FORMATS = {
 // Currency configuration
 export const CURRENCY = {
   LOCALE: 'en-US',
-  CURRENCY: 'USD',
+  CURRENCY: 'EGP',
   MIN_FRACTION_DIGITS: 2,
   MAX_FRACTION_DIGITS: 2,
 } as const;
@@ -85,7 +85,7 @@ export const APP_INFO = {
   NAME: 'ExpenseTracker',
   VERSION: '1.0.0',
   STORAGE_TYPE: 'LocalStorage',
-  FRAMEWORK: 'Next.js 16',
+  MADE_BY: 'Mohamed Zahran',
   TAGLINE: 'Manage your finances',
 } as const;
 

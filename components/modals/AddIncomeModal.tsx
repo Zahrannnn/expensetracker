@@ -11,7 +11,7 @@ import { useIncomeActions } from '@/lib/useExpenseStore';
 import { INCOME_SOURCES } from '@/types/expense';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { ConfettiEffect } from './ConfettiEffect';
+import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
 
 export function AddIncomeModal() {
   const { addIncome } = useIncomeActions();

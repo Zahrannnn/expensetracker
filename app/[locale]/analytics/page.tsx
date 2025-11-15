@@ -1,22 +1,25 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { PieChartComponent } from '@/components/charts/PieChartComponent';
 import { LineChartComponent } from '@/components/charts/LineChartComponent';
 import { IncomeVsExpensesChart } from '@/components/charts/IncomeVsExpensesChart';
-import { HydrationGuard } from '@/components/HydrationGuard';
+import { HydrationGuard } from '@/components/shared/HydrationGuard';
 import { BarChart3 } from 'lucide-react';
 
 export default function AnalyticsPage() {
+  const t = useTranslations('analytics');
+  
   return (
     <HydrationGuard>
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <BarChart3 className="h-8 w-8" />
-            Analytics
+            {t('title')}
           </h1>
           <p className="text-muted-foreground">
-            Visualize your spending patterns and financial health
+            {t('subtitle')}
           </p>
         </div>
 
