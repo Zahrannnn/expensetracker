@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dummy Data Injector - Expense Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #1a202c;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+        
+        .btn-info {
+            background: #4299e1;
+            color: white;
+        }
+        
+        .output {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .output pre {
+            color: #2d3748;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .preset-btn {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .preset-btn:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+        }
+        
+        .preset-btn strong {
+            display: block;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .preset-btn small {
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Dummy Data Injector</h1>
+        <p class="subtitle">Generate test data for your Expense Tracker</p>
+        
+        <div class="grid">
+            <div class="form-group">
+                <label for="expenseCount">Expenses</label>
+                <input type="number" id="expenseCount" value="100" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="incomeCount">Incomes</label>
+                <input type="number" id="incomeCount" value="12" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="debtCount">Debts</label>
+                <input type="number" id="debtCount" value="5" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="monthsBack">Months Back</label>
+                <input type="number" id="monthsBack" value="6" min="1" max="48">
+            </div>
+        </div>
+        
+        <h3 style="margin: 20px 0 10px; color: #2d3748;">Quick Presets</h3>
+        <div class="grid">
+            <button class="preset-btn" onclick="setPreset(50, 6, 2, 3)">
+                <strong>Light Test</strong>
+                <small>50 expenses, 3 months</small>
+            </button>
+            <button class="preset-btn" onclick="setPreset(200, 12, 5, 6)">
+                <strong>Medium Test</strong>
+                <small>200 expenses, 6 months</small>
+            </button>
+            <button class="preset-btn" onclick="setPreset(1000, 24, 15, 12)">
+                <strong>Heavy Test</strong>
+                <small>1000 expenses, 12 months</small>
+            </button>
+            <button class="preset-btn" onclick="setPreset(5000, 48, 50, 24)">
+                <strong>Stress Test</strong>
+                <small>5000 expenses, 24 months</small>
+            </button>
+        </div>
+        
+        <button class="btn btn-primary" onclick="generateData()">
+            🎲 Generate Dummy Data
+        </button>
+        
+        <button class="btn btn-secondary" onclick="openApp()">
+            🚀 Open Expense Tracker
+        </button>
+        
+        <button class="btn btn-info" onclick="viewData()">
+            👀 View Current Data
+        </button>
+        
+        <button class="btn btn-danger" onclick="clearData()">
+            🗑️ Clear All Data
+        </button>
+        
+        <div id="output" class="output" style="display: none;">
+            <pre id="outputText"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Inline the dummy data generator since we can't load from /scripts in production
+        function generateDummyData(config = {}) {
+          const {
+            expenseCount = 100,
+            incomeCount = 12,
+            debtCount = 5,
+            monthsBack = 6
+          } = config;
+
+          // Categories from the app (types/expense.ts)
+          const categories = [
+            'FastFood',
+            'Drinks',
+            'Transportation',
+            'Clothing',
+            'Entertainment',
+            'Bills & Utilities',
+            'Healthcare',
+            'Other',
+          ];
+
+          // Income sources
+          const incomeSources = [
+            'Salary',
+            'Freelance',
+            'Business',
+            'Investment',
+            'Gift',
+            'Other'
+          ];
+
+          // Creditors for debts
+          const creditors = [
+            'Bank Loan',
+            'Credit Card',
+            'Family Member',
+            'Friend',
+            'Personal Loan',
+            'Mortgage',
+            'Car Loan',
+            'Student Loan'
+          ];
+
+          // Notes for expenses
+          const expenseNotes = [
+            'Weekly shopping',
+            'Monthly subscription',
+            'Birthday gift',
+            'Emergency expense',
+            'Planned purchase',
+            'Unexpected cost',
+            'Regular payment',
+            'One-time purchase',
+            'Lunch with colleagues',
+            'Dinner at restaurant',
+            'Coffee break',
+            'Taxi to work',
+            'Gas station',
+            'Online shopping',
+            'New shoes',
+            'Phone bill',
+            'Internet payment',
+            'Electricity bill',
+            'Water bill',
+            'Movie tickets'
+          ];
+
+          // Helper functions
+          function randomDate(monthsBack) {
+            const now = new Date();
+            const start = new Date(now);
+            start.setMonth(start.getMonth() - monthsBack);
+            const timestamp = start.getTime() + Math.random() * (now.getTime() - start.getTime());
+            return new Date(timestamp).toISOString();
+          }
+
+          function formatMonth(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            return `${year}-${month}`;
+          }
+
+          function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+              const r = Math.random() * 16 | 0;
+              const v = c == 'x' ? r : (r & 0x3 | 0x8);
+              return v.toString(16);
+            });
+          }
+
+          // Generate expenses
+          const expenses = [];
+          for (let i = 0; i < expenseCount; i++) {
+            const date = randomDate(monthsBack);
+            const expense = {
+              id: generateUUID(),
+              amount: Math.round((Math.random() * 500 + 10) * 100) / 100,
+              category: categories[Math.floor(Math.random() * categories.length)],
+              date: date,
+              note: Math.random() > 0.3 ? expenseNotes[Math.floor(Math.random() * expenseNotes.length)] : undefined
+            };
+            expenses.push(expense);
+          }
+
+          // Generate incomes
+          const incomes = [];
+          for (let i = 0; i < incomeCount; i++) {
+            const date = randomDate(monthsBack);
+            const income = {
+              id: generateUUID(),
+              amount: Math.round((Math.random() * 5000 + 2000) * 100) / 100,
+              source: incomeSources[Math.floor(Math.random() * incomeSources.length)],
+              date: date,
+              month: formatMonth(date)
+            };
+            incomes.push(income);
+          }
+
+          // Generate debts
+          const debts = [];
+          for (let i = 0; i < debtCount; i++) {
+            const borrowedDate = randomDate(monthsBack);
+            const isPaid = Math.random() > 0.5;
+            const debt = {
+              id: generateUUID(),
+              amount: Math.round((Math.random() * 10000 + 1000) * 100) / 100,
+              creditor: creditors[Math.floor(Math.random() * creditors.length)],
+              reason: Math.random() > 0.3 ? 'Emergency expense' : undefined,
+              borrowedDate: borrowedDate,
+              dueDate: Math.random() > 0.5 ? randomDate(0) : undefined,
+              isPaid: isPaid,
+              paidDate: isPaid ? randomDate(0) : undefined
+            };
+            debts.push(debt);
+          }
+
+          // Create the storage object
+          const storageData = {
+            state: {
+              expenses: expenses,
+              incomes: incomes,
+              debts: debts,
+              hydrated: false
+            },
+            version: 0
+          };
+
+          // Save to localStorage
+          try {
+            localStorage.setItem('app-storage', JSON.stringify(storageData));
+            
+            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            const totalIncome = incomes.reduce((sum, i) => sum + i.amount, 0);
+            const totalDebt = debts.filter(d => !d.isPaid).reduce((sum, d) => sum + d.amount, 0);
+            
+            return {
+              success: true,
+              data: storageData,
+              summary: {
+                expenses: expenses.length,
+                incomes: incomes.length,
+                debts: debts.length,
+                totalExpenses,
+                totalIncome,
+                totalDebt
+              }
+            };
+          } catch (error) {
+            return {
+              success: false,
+              error: error.message
+            };
+          }
+        }
+
+        function clearAllData() {
+          try {
+            localStorage.removeItem('app-storage');
+            return { success: true };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        }
+
+        function viewCurrentData() {
+          try {
+            const data = localStorage.getItem('app-storage');
+            if (!data) return null;
+            return JSON.parse(data);
+          } catch (error) {
+            return null;
+          }
+        }
+
+        window.generateDummyData = generateDummyData;
+        window.clearAllData = clearAllData;
+        window.viewCurrentData = viewCurrentData;
+    </script>
+    <script>
+        function setPreset(expenses, incomes, debts, months) {
+            document.getElementById('expenseCount').value = expenses;
+            document.getElementById('incomeCount').value = incomes;
+            document.getElementById('debtCount').value = debts;
+            document.getElementById('monthsBack').value = months;
+        }
+        
+        function showOutput(text) {
+            document.getElementById('output').style.display = 'block';
+            document.getElementById('outputText').textContent = text;
+        }
+        
+        function generateData() {
+            const config = {
+                expenseCount: parseInt(document.getElementById('expenseCount').value),
+                incomeCount: parseInt(document.getElementById('incomeCount').value),
+                debtCount: parseInt(document.getElementById('debtCount').value),
+                monthsBack: parseInt(document.getElementById('monthsBack').value)
+            };
+            
+            const result = window.generateDummyData(config);
+            
+            if (result.success) {
+                const summary = result.summary;
+                showOutput(
+                    `✅ Dummy data generated successfully!\n\n` +
+                    `📊 Summary:\n` +
+                    `   - ${summary.expenses} expenses\n` +
+                    `   - ${summary.incomes} incomes\n` +
+                    `   - ${summary.debts} debts\n` +
+                    `   - Spanning ${config.monthsBack} months\n\n` +
+                    `💰 Financial Summary:\n` +
+                    `   - Total Expenses: ${summary.totalExpenses.toFixed(2)} EGP\n` +
+                    `   - Total Income: ${summary.totalIncome.toFixed(2)} EGP\n` +
+                    `   - Unpaid Debts: ${summary.totalDebt.toFixed(2)} EGP\n` +
+                    `   - Net Balance: ${(summary.totalIncome - summary.totalExpenses).toFixed(2)} EGP\n\n` +
+                    `💡 Click "Open Expense Tracker" to see the data!`
+                );
+            } else {
+                showOutput(`❌ Error: ${result.error}`);
+            }
+        }
+        
+        function openApp() {
+            window.open('/', '_blank');
+        }
+        
+        function viewData() {
+            const data = window.viewCurrentData();
+            if (data) {
+                showOutput(JSON.stringify(data, null, 2));
+            } else {
+                showOutput('ℹ️ No data found in localStorage');
+            }
+        }
+        
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                const result = window.clearAllData();
+                if (result.success) {
+                    showOutput('✅ All data cleared!\n\n💡 Generate new data or open the app to see the empty state.');
+                } else {
+                    showOutput(`❌ Error: ${result.error}`);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+

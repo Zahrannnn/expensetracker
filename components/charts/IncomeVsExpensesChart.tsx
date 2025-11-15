@@ -121,6 +121,7 @@ export function IncomeVsExpensesChart() {
                 backgroundColor: 'hsl(var(--card))',
                 border: '1px solid hsl(var(--border))',
                 borderRadius: '8px',
+                
               }}
             />
             <Legend />
