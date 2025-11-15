@@ -11,7 +11,7 @@ A modern, production-ready Progressive Web App for managing expenses, income, an
 [![PWA](https://img.shields.io/badge/PWA-Ready-purple?style=for-the-badge&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-[Live Demo](#) • [Documentation](#documentation) • [Report Bug](#) • [Request Feature](#)
+[Live Demo](#) • [Documentation](#documentation)
 
 </div>
 
