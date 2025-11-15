@@ -118,6 +118,7 @@
     "ofIncomeSpent": "of income spent"
   },
   "summary": {
+    "noData": "No data available yet",
     "totalThisMonth": "Total This Month",
     "averagePerDay": "Average Per Day",
     "transactions": "{count} transaction(s)",
