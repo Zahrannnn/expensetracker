@@ -1,3 +1,5 @@
+'use client';
+
 import { WifiOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,11 +22,7 @@ export default function OfflinePage() {
             Your data is saved locally and will sync when you&apos;re back online.
           </p>
           <Button 
-            onClick={() => {
-              if (typeof window !== 'undefined') {
-                window.location.reload();
-              }
-            }}
+            onClick={() => window.location.reload()}
             className="w-full"
           >
             Try Again
