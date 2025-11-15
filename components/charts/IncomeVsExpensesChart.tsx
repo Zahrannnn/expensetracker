@@ -82,7 +82,7 @@ export function IncomeVsExpensesChart() {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>Income vs Expenses</span>
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-4 text-sm overflow-x-auto">
             <div className="flex items-center gap-1">
               <TrendingUp className="h-4 w-4 text-green-500" />
               <span className="text-green-600">{formatCurrency(totalIncome)}</span>
@@ -91,12 +91,7 @@ export function IncomeVsExpensesChart() {
               <TrendingDown className="h-4 w-4 text-red-500" />
               <span className="text-red-600">{formatCurrency(totalExpenses)}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="text-muted-foreground">Net:</span>
-              <span className={netSavings >= 0 ? 'text-green-600' : 'text-red-600'}>
-                {formatCurrency(netSavings)}
-              </span>
-            </div>
+          
           </div>
         </CardTitle>
       </CardHeader>
