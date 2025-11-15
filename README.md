@@ -11,7 +11,7 @@ A modern, production-ready Progressive Web App for managing expenses, income, an
 [![PWA](https://img.shields.io/badge/PWA-Ready-purple?style=for-the-badge&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-[Live Demo](#) • [Documentation](#documentation)
+[Live Demo](https://expense-trac-ker.vercel.app/) • [Documentation](#documentation)
 
 </div>
 
@@ -413,7 +413,7 @@ Special thanks to these amazing projects:
 
 **Project Link:** [https://github.com/Zahrannnn/expensetracker](https://github.com/Zahrannnn/expensetracker)
 
-**Live Demo:** [https://expense-tracker.vercel.app](https://expense-tracker.vercel.app)
+**Live Demo:** [https://expense-trac-ker.vercel.app](https://expense-trac-ker.vercel.app)
 
 ---
 
