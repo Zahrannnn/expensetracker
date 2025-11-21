@@ -7,6 +7,7 @@ import { HydrationGuard } from '@/components/shared/HydrationGuard';
 import { BudgetOverview } from '@/components/dashboard/BudgetOverview';
 import { DebtList } from '@/components/dashboard/DebtList';
 import { ActionsMenu } from '@/components/dashboard/ActionsMenu';
+import { ReminderCenter } from '@/components/dashboard/ReminderCenter';
 
 export default function Home() {
   const t = useTranslations('dashboard');
@@ -25,6 +26,7 @@ export default function Home() {
         </div>
 
         <BudgetOverview />
+        <ReminderCenter />
         <MonthlySummary />
         <DebtList />
         <ExpenseTable />

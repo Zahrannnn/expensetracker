@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,31 +15,31 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useExpenseActions } from '@/lib/useExpenseStore';
-import { CATEGORIES } from '@/types/expense';
+import { useExpenseActions, useCategories } from '@/lib/useExpenseStore';
 
 export function AddExpenseForm() {
   const { addExpense } = useExpenseActions();
+  const categories = useCategories();
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
   const [note, setNote] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!amount || !category) return;
+    if (!amount || !categoryId) return;
 
     addExpense({
       amount: parseFloat(amount),
-      category,
+      categoryId,
       note: note.trim() || undefined,
       date: new Date(date).toISOString(),
     });
 
     // Reset form
     setAmount('');
-    setCategory('');
+    setCategoryId('');
     setNote('');
     setDate(new Date().toISOString().split('T')[0]);
   };
@@ -81,16 +82,29 @@ export function AddExpenseForm() {
 
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
-            <Select value={category} onValueChange={setCategory} required>
+            <Select value={categoryId} onValueChange={setCategoryId} required>
               <SelectTrigger id="category">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
-                {CATEGORIES.map((cat) => (
-                  <SelectItem key={cat} value={cat}>
-                    {cat}
-                  </SelectItem>
-                ))}
+                {categories.map((cat) => {
+                  const IconComponent = LucideIcons[cat.icon as keyof typeof LucideIcons] as React.ComponentType<{ className?: string }>;
+                  return (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      <div className="flex items-center gap-2">
+                        {IconComponent && (
+                          <div
+                            className="flex items-center justify-center h-4 w-4 rounded"
+                            style={{ backgroundColor: cat.color + '20', color: cat.color }}
+                          >
+                            <IconComponent className="h-3 w-3" />
+                          </div>
+                        )}
+                        <span>{cat.name}</span>
+                      </div>
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>

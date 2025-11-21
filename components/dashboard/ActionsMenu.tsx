@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Plus, DollarSign, HandCoins, Receipt } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,8 +17,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useExpenseActions, useIncomeActions, useDebtActions } from '@/lib/useExpenseStore';
-import { CATEGORIES, INCOME_SOURCES } from '@/types/expense';
+import { useExpenseActions, useIncomeActions, useDebtActions, useCategories } from '@/lib/useExpenseStore';
+import { INCOME_SOURCES } from '@/types/expense';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
@@ -39,10 +40,11 @@ export function ActionsMenu() {
   const { addExpense } = useExpenseActions();
   const { addIncome } = useIncomeActions();
   const { addDebt } = useDebtActions();
+  const categories = useCategories();
 
   // Expense form state
   const [expenseAmount, setExpenseAmount] = useState('');
-  const [expenseCategory, setExpenseCategory] = useState('');
+  const [expenseCategoryId, setExpenseCategoryId] = useState('');
   const [expenseNote, setExpenseNote] = useState('');
   const [expenseDate, setExpenseDate] = useState(new Date().toISOString().split('T')[0]);
 
@@ -66,7 +68,7 @@ export function ActionsMenu() {
 
   const resetExpenseForm = () => {
     setExpenseAmount('');
-    setExpenseCategory('');
+    setExpenseCategoryId('');
     setExpenseNote('');
     setExpenseDate(new Date().toISOString().split('T')[0]);
   };
@@ -87,20 +89,22 @@ export function ActionsMenu() {
 
   const handleExpenseSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!expenseAmount || !expenseCategory) {
+    if (!expenseAmount || !expenseCategoryId) {
       toast.error(tToast('fillRequired'));
       return;
     }
 
+    const selectedCategory = categories.find(cat => cat.id === expenseCategoryId);
+
     addExpense({
       amount: parseFloat(expenseAmount),
-      category: expenseCategory,
+      categoryId: expenseCategoryId,
       note: expenseNote.trim() || undefined,
       date: new Date(expenseDate).toISOString(),
     });
 
     toast.success(tToast('expenseAdded'), {
-      description: `${expenseCategory} - $${parseFloat(expenseAmount).toFixed(2)}`,
+      description: `${selectedCategory?.name || 'Unknown'} - $${parseFloat(expenseAmount).toFixed(2)}`,
     });
 
     triggerConfetti('success');
@@ -221,14 +225,29 @@ export function ActionsMenu() {
 
             <div className="space-y-2">
               <Label htmlFor="expense-category">{tExpense('category')} *</Label>
-              <Select value={expenseCategory} onValueChange={setExpenseCategory} required>
+              <Select value={expenseCategoryId} onValueChange={setExpenseCategoryId} required>
                 <SelectTrigger id="expense-category">
                   <SelectValue placeholder={tExpense('selectCategory')} />
                 </SelectTrigger>
                 <SelectContent>
-                  {CATEGORIES.map((cat) => (
-                    <SelectItem key={cat} value={cat}>{tExpense(`categories.${cat}`)}</SelectItem>
-                  ))}
+                  {categories.map((cat) => {
+                    const IconComponent = LucideIcons[cat.icon as keyof typeof LucideIcons] as React.ComponentType<{ className?: string }>;
+                    return (
+                      <SelectItem key={cat.id} value={cat.id}>
+                        <div className="flex items-center gap-2">
+                          {IconComponent && (
+                            <div
+                              className="flex items-center justify-center h-4 w-4 rounded"
+                              style={{ backgroundColor: cat.color + '20', color: cat.color }}
+                            >
+                              <IconComponent className="h-3 w-3" />
+                            </div>
+                          )}
+                          <span>{cat.name}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>

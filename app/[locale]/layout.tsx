@@ -8,6 +8,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Toaster } from "sonner";
 import { PWAProvider } from "@/components/layout/PWAProvider";
+import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
+import { OnboardingGuide } from "@/components/onboarding/OnboardingGuide";
 
 export const metadata: Metadata = {
   title: "Expense Tracker - Manage Your Finances",
@@ -92,6 +94,8 @@ export default async function LocaleLayout({
                   </div>
                 </main>
               </SidebarProvider>
+              <OnboardingGuide />
+              <ChatbotWidget locale={locale} />
               <Toaster position={locale === 'ar' ? 'top-left' : 'top-right'} richColors closeButton />
             </PWAProvider>
           </ThemeProvider>

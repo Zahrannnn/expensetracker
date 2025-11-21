@@ -3,6 +3,8 @@
     "dashboard": "Dashboard",
     "income": "Income",
     "analytics": "Analytics",
+    "savings": "Savings",
+    "achievements": "Achievements",
     "settings": "Settings"
   },
   "common": {
@@ -124,6 +126,243 @@
     "debts": "Debts",
     "ofIncomeSpent": "of income spent"
   },
+  "budgetCard": {
+    "perMonth": "{amount}/month",
+    "spentLabel": "Spent:",
+    "overLabel": "Over:",
+    "leftLabel": "Left:",
+    "overBudgetAlert": "OVER BUDGET",
+    "nearLimitAlert": "NEAR LIMIT",
+    "noBudget": "No budget set",
+    "spentThisMonth": "Spent this month:",
+    "setBudget": "Set Budget"
+  },
+  "budgetModal": {
+    "title": "Set Budget for {category}",
+    "description": "Set a monthly spending limit and get alerts when approaching it.",
+    "currentSpending": "Current Month Spending",
+    "monthlyLimitLabel": "Monthly Budget Limit",
+    "monthlyLimitHelper": "Maximum amount you want to spend on {category} per month",
+    "alertThresholdLabel": "Alert Threshold (%)",
+    "alertThresholdHelper": "Get notified when you reach this percentage of your budget (e.g., 80%)",
+    "setButton": "Set Budget",
+    "updateButton": "Update Budget",
+    "errors": {
+      "invalidAmount": "Please enter a valid budget amount",
+      "invalidThreshold": "Alert threshold must be between 0 and 100"
+    },
+    "toast": {
+      "created": "Budget set successfully",
+      "updated": "Budget updated successfully",
+      "description": "{category}: {amount}/month"
+    }
+  },
+  "categoryBudgets": {
+    "title": "Category Budgets",
+    "description": "Manage monthly spending limits for each category",
+    "healthLabel": "Budget Health",
+    "stats": {
+      "budgetsSet": "Budgets Set",
+      "overBudget": "Over Budget",
+      "nearLimit": "Near Limit"
+    },
+    "empty": {
+      "title": "No categories available",
+      "subtitle": "Create categories first to set budgets"
+    },
+    "tip": "💡 Tip: Click any category card to set a monthly limit and get alerts when you approach or exceed it."
+  },
+  "categoryManager": {
+    "title": "Manage Categories",
+    "description": "Create and customize your expense categories",
+    "addButton": "Add Category",
+    "createButton": "Create Category",
+    "saveChanges": "Save Changes",
+    "emptyState": "No categories yet",
+    "badges": {
+      "default": "Default"
+    },
+    "expenseCount": "{count, plural, one {{count} expense} other {{count} expenses}}",
+    "createDialog": {
+      "title": "Create New Category",
+      "description": "Add a custom category with your own icon and color"
+    },
+    "editDialog": {
+      "title": "Edit Category",
+      "description": "Update your category's name, icon, or color"
+    },
+    "fields": {
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g., Groceries"
+    },
+    "errors": {
+      "missingName": "Please enter a category name",
+      "duplicateName": "A category with this name already exists",
+      "cantDeleteDefault": "Cannot delete default categories",
+      "cantDeleteWithExpenses": "Cannot delete a category with {count} expense(s)"
+    },
+    "toast": {
+      "created": "Category created successfully!",
+      "updated": "Category updated successfully!",
+      "deleted": "Category deleted successfully!"
+    }
+  },
+  "achievementCard": {
+    "badge": "Unlocked",
+    "progressLabel": "Progress",
+    "progressValue": "{progress} / {target}"
+  },
+  "streakIndicator": {
+    "label": "{count, plural, one {{count} day streak} other {{count} day streak}}"
+  },
+  "achievementsPage": {
+    "title": "Achievements",
+    "subtitle": "Track your progress and unlock badges as you manage your finances.",
+    "tabs": {
+      "all": "All",
+      "unlocked": "Unlocked ({count})",
+      "locked": "Locked ({count})"
+    },
+    "emptyUnlocked": "No achievements unlocked yet. Keep tracking!"
+  },
+  "achievementDefinitions": {
+    "first_expense": {
+      "title": "First Steps",
+      "description": "Log your first expense"
+    },
+    "tracker_novice": {
+      "title": "Tracker Novice",
+      "description": "Log 10 expenses"
+    },
+    "tracker_pro": {
+      "title": "Tracker Pro",
+      "description": "Log 100 expenses"
+    },
+    "category_explorer": {
+      "title": "Category Explorer",
+      "description": "Use 5 different categories"
+    },
+    "week_warrior": {
+      "title": "Week Warrior",
+      "description": "Log expenses for 7 days in a row"
+    },
+    "monthly_master": {
+      "title": "Monthly Master",
+      "description": "Log expenses for 30 days in a row"
+    },
+    "saver_starter": {
+      "title": "Piggy Bank",
+      "description": "Create your first savings goal"
+    },
+    "goal_getter": {
+      "title": "Goal Getter",
+      "description": "Complete a savings goal"
+    },
+    "big_saver": {
+      "title": "Big Saver",
+      "description": "Save a total of 1,000"
+    },
+    "budget_boss": {
+      "title": "Budget Boss",
+      "description": "Set a budget for a category"
+    }
+  },
+  "statsWidget": {
+    "title": "Activity Stats",
+    "currentStreak": {
+      "label": "Current Streak",
+      "unit": "days"
+    },
+    "achievements": {
+      "label": "Achievements",
+      "value": "{unlocked}/{total}"
+    },
+    "goalsMet": {
+      "label": "Goals Met"
+    },
+    "totalLogged": {
+      "label": "Total Logged"
+    }
+  },
+  "savingsModal": {
+    "title": "Create Savings Goal",
+    "description": "Set a target for something you want to save for.",
+    "primaryButton": "Create Goal",
+    "fields": {
+      "name": "Goal Name",
+      "namePlaceholder": "e.g., New Car, Vacation, Emergency Fund",
+      "target": "Target Amount",
+      "initial": "Initial Deposit",
+      "deadline": "Target Date (Optional)",
+      "icon": "Icon",
+      "color": "Color"
+    },
+    "errors": {
+      "missingName": "Please enter a goal name",
+      "invalidTarget": "Please enter a valid target amount",
+      "invalidInitial": "Initial amount cannot be negative"
+    },
+    "toast": {
+      "created": "Savings goal created successfully!"
+    }
+  },
+  "depositModal": {
+    "title": "Add to {name}",
+    "description": "Current balance: {current} / {target}",
+    "primaryButton": "Deposit Funds",
+    "fields": {
+      "amount": "Amount to Deposit"
+    },
+    "errors": {
+      "invalidAmount": "Please enter a valid amount"
+    },
+    "overflow": {
+      "title": "You're over this goal by {amount}",
+      "description": "You can move the extra amount to another goal or keep it here.",
+      "selectLabel": "Move extra to",
+      "selectPlaceholder": "Select a goal",
+      "keepHere": "Keep full amount here",
+      "moveAction": "Move extra to another goal",
+      "editAmount": "Change amount"
+    },
+    "toast": {
+      "goalReached": "Congratulations! You reached your goal! 🎉",
+      "deposited": "Deposited {amount} to {name}",
+      "overflowMovedTitle": "Extra moved to another goal",
+      "overflowMovedDescription": "Sent {remainder} to {other}."
+    }
+  },
+  "savingsCard": {
+    "target": "Target: {amount}",
+    "deadlineLabel": "Deadline",
+    "deadlineValue": "{days} days left",
+    "monthlyLabel": "Monthly Save",
+    "completed": "Goal Completed!",
+    "confirmDelete": "Are you sure you want to delete {name}?",
+    "actions": {
+      "deposit": "Deposit",
+      "delete": "Delete",
+      "addExtra": "Add Extra",
+      "depositPrimary": "Deposit Funds"
+    }
+  },
+  "savingsPage": {
+    "title": "Savings Goals",
+    "subtitle": "Track your progress towards your financial dreams",
+    "newGoal": "New Goal",
+    "stats": {
+      "totalSaved": "Total Saved",
+      "totalSavedHelper": "Across {count} active {count, plural, one {goal} other {goals}}",
+      "totalTarget": "Total Target",
+      "totalTargetHelper": "Combined goal amount",
+      "overallProgress": "Overall Progress"
+    },
+    "empty": {
+      "title": "No savings goals yet",
+      "subtitle": "Create a savings goal to start tracking your progress towards a car, vacation, or emergency fund.",
+      "cta": "Create Your First Goal"
+    }
+  },
   "summary": {
     "noData": "No data available yet",
     "totalThisMonth": "Total This Month",
@@ -164,7 +403,82 @@
     "localStorage": "LocalStorage (Browser)",
     "confirmClear": "Are you sure?",
     "confirmClearDescription": "This will permanently delete all {count} expenses. This action cannot be undone.",
-    "cancelClear": "Cancel"
+    "cancelClear": "Cancel",
+    "chatbot": {
+      "title": "Personal Chatbot",
+      "description": "Give your AI buddy a name and connect your Gemini API key.",
+      "nameLabel": "Bot name",
+      "namePlaceholder": "e.g., Nova",
+      "keyLabel": "Gemini API Key",
+      "instructions": "Get an API key from Google AI Studio and paste it here. Keys are saved only on this device.",
+      "saveButton": "Save Bot Settings",
+      "keyHelp": "Don’t have a key yet? <link>Generate one on Google AI Studio</link>",
+      "showKey": "Show current key",
+      "updateButton": "Update Settings",
+      "clearKey": "Delete key",
+      "activeHelper": "{name} is ready! You can chat now or manage the key below.",
+      "keyVisible": "Gemini API key",
+      "toastCleared": "Gemini key removed. Chat history cleared.",
+      "toastSaved": "Chatbot settings updated!"
+    },
+    "guidance": {
+      "title": "Guidance & reminders",
+      "description": "Manage the walkthrough and proactive alerts.",
+      "replay": "Replay onboarding",
+      "remindersOn": "Reminders enabled",
+      "remindersOff": "Enable reminders",
+      "clearDismissed": "Reset dismissed alerts",
+      "notificationsHint": "Notifications are delivered locally when reminders stay on."
+    }
+  },
+  "chatbot": {
+    "launcher": "Ask {name}",
+    "panelTitle": "{name}",
+    "panelDescription": "Ask about your spending, savings, or anything finance-related.",
+    "welcome": "Hi, I'm {name}! I can chat about your budget, savings goals, or expenses.",
+    "typing": "{name} is thinking...",
+    "missingKey": "Add your Gemini API key in Settings for real responses. You're in mock mode for now.",
+    "inputPlaceholder": "Ask me about your finances...",
+    "mockResponse": "I don't have a Gemini key yet, but based on your data I can still help! Try asking about recent expenses or goals.",
+    "errorTitle": "Chat error",
+    "errorDescription": "Gemini couldn't reply. Please try again.",
+    "errorResponse": "Something went wrong while generating my reply. Please try again."
+  },
+  "onboarding": {
+    "title": "Quick tour",
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip",
+    "finish": "Let's go",
+    "steps": {
+      "dashboard": {
+        "title": "Track everything at a glance",
+        "description": "Your dashboard shows budgets, reminders, and quick actions to keep you on target."
+      },
+      "chatbot": {
+        "title": "Chat with your finance buddy",
+        "description": "Use your personal bot to ask about spending, set plans, or get tips any time."
+      },
+      "savings": {
+        "title": "Stay on top of goals",
+        "description": "Create goals, monitor progress, and let reminders nudge you when you're falling behind."
+      }
+    }
+  },
+  "reminders": {
+    "title": "Smart reminders",
+    "description": "We’ll nudge you when budgets or goals need attention.",
+    "disable": "Turn off",
+    "dismiss": "Dismiss",
+    "notificationsDenied": "Notifications are blocked. Enable them in your browser to get alerts.",
+    "budgetOverTitle": "{category} is over budget",
+    "budgetOverDescription": "You've spent {spent}% of this budget.",
+    "budgetNearTitle": "{category} is nearing its limit",
+    "budgetNearDescription": "Only {remaining} left for this month.",
+    "goalDeadlineTitle": "{name} needs attention",
+    "goalDeadlineDescription": "{progress}% saved with {days} days left.",
+    "goalBehindTitle": "{name} is off pace",
+    "goalBehindDescription": "You're under 50% saved. Add a little boost!"
   },
   "filters": {
     "allMonths": "All months",

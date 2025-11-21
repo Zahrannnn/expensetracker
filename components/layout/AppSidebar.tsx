@@ -12,6 +12,8 @@ import {
   Sun,
   Monitor,
   DollarSign,
+  PiggyBank,
+  Trophy,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -56,6 +58,16 @@ export function AppSidebar() {
       titleKey: 'nav.analytics',
       url: `/${locale}/analytics`,
       icon: BarChart3,
+    },
+    {
+      titleKey: 'nav.savings',
+      url: `/${locale}/savings`,
+      icon: PiggyBank,
+    },
+    {
+      titleKey: 'nav.achievements',
+      url: `/${locale}/achievements`,
+      icon: Trophy,
     },
     {
       titleKey: 'nav.settings',

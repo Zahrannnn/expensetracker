@@ -41,6 +41,9 @@ A modern, production-ready Progressive Web App for managing expenses, income, an
 - 📱 **Responsive Design** - Perfect on mobile, tablet, and desktop
 - ✨ **Smooth Animations** - Delightful transitions with Framer Motion
 - 🎉 **Motivational Feedback** - Confetti celebrations for milestones
+- 🧭 **Guided Onboarding** - In-app walkthrough highlights key areas on first launch
+- 🔔 **Smart Reminders** - Local push alerts when budgets or goals need attention
+- 🤖 **Personal AI Chatbot** - Gemini-powered assistant that knows your local data
 
 ### 📱 Progressive Web App
 - 🔌 **Offline Support** - Works without internet connection
@@ -217,6 +220,27 @@ expensetracker/
 - [Component Organization](COMPONENTS_ORGANIZATION.md)
 - [State Management](docs/state-management.md)
 - [Internationalization](docs/i18n.md)
+
+## 🤖 Personal Chatbot
+
+The built-in chatbot is powered by Google Gemini and runs entirely on the client.
+
+1. Visit **Settings → Personal Chatbot**
+2. Pick a friendly bot name
+3. Generate a Gemini API key at [Google AI Studio](https://aistudio.google.com/app/apikey)
+4. Paste the key in the settings panel (stored locally only)
+5. Click the floating **Ask {bot}** button to start chatting
+
+The bot can reference your latest expenses, savings goals, and unlocked achievements. If you skip the API key, it stays in a local mock mode with limited replies.
+
+## 🔔 Reminders & Notifications
+
+- The dashboard shows reminder cards when a budget is near/over its limit or a savings goal is behind.
+- Local notifications are delivered via the PWA (grant permission when prompted).
+- Controls live under **Settings → Guidance & reminders**:
+  - Replay the onboarding tour
+  - Enable/disable reminders + notifications
+  - Reset dismissed alerts
 
 ---
 

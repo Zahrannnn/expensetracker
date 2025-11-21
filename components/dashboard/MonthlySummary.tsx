@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useExpenses } from '@/lib/useExpenseStore';
+import { useCategories, useExpenses } from '@/lib/useExpenseStore';
 import {
   filterExpensesByMonth,
   getTotalAmount,
@@ -10,17 +10,22 @@ import {
   formatCurrency,
   getCurrentMonth,
 } from '@/lib/helpers';
+import { getCategoryName } from '@/lib/category-helpers';
 import { TrendingUp, DollarSign, ShoppingBag } from 'lucide-react';
 
 export function MonthlySummary() {
   const t = useTranslations('summary');
   const expenses = useExpenses();
+  const categories = useCategories();
   const currentMonth = getCurrentMonth();
   const monthlyExpenses = filterExpensesByMonth(expenses, currentMonth);
   
   const total = getTotalAmount(monthlyExpenses);
   const count = monthlyExpenses.length;
   const mostExpensive = getMostExpensiveCategory(monthlyExpenses);
+  const mostExpensiveName = mostExpensive
+    ? getCategoryName(categories, mostExpensive.category)
+    : '-';
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -48,7 +53,7 @@ export function MonthlySummary() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {mostExpensive?.category || '-'}
+            {mostExpensiveName}
           </div>
           <p className="text-xs text-muted-foreground">
             {mostExpensive ? formatCurrency(mostExpensive.amount) : t('noData')}

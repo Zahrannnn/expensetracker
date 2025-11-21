@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Pencil, Trash2, Check, X } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -13,10 +14,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { useExpenseActions } from '@/lib/useExpenseStore';
+import { useExpenseActions, useCategories } from '@/lib/useExpenseStore';
 import { formatCurrency, formatDate } from '@/lib/helpers';
+import { getCategoryById } from '@/lib/category-helpers';
 import type { Expense } from '@/types/expense';
-import { CATEGORIES } from '@/types/expense';
 import { toast } from 'sonner';
 
 interface ExpenseRowProps {
@@ -25,9 +26,12 @@ interface ExpenseRowProps {
 
 export function ExpenseRow({ expense }: ExpenseRowProps) {
   const { updateExpense, deleteExpense } = useExpenseActions();
+  const categories = useCategories();
+  const category = getCategoryById(categories, expense.categoryId);
+  
   const [isEditing, setIsEditing] = useState(false);
   const [editAmount, setEditAmount] = useState(expense.amount.toString());
-  const [editCategory, setEditCategory] = useState(expense.category);
+  const [editCategoryId, setEditCategoryId] = useState(expense.categoryId);
   const [editNote, setEditNote] = useState(expense.note || '');
   const [editDate, setEditDate] = useState(
     expense.date.split('T')[0]
@@ -36,7 +40,7 @@ export function ExpenseRow({ expense }: ExpenseRowProps) {
   const handleSave = () => {
     updateExpense(expense.id, {
       amount: parseFloat(editAmount),
-      category: editCategory,
+      categoryId: editCategoryId,
       note: editNote.trim() || undefined,
       date: new Date(editDate).toISOString(),
     });
@@ -46,7 +50,7 @@ export function ExpenseRow({ expense }: ExpenseRowProps) {
 
   const handleCancel = () => {
     setEditAmount(expense.amount.toString());
-    setEditCategory(expense.category);
+    setEditCategoryId(expense.categoryId);
     setEditNote(expense.note || '');
     setEditDate(expense.date.split('T')[0]);
     setIsEditing(false);
@@ -55,7 +59,7 @@ export function ExpenseRow({ expense }: ExpenseRowProps) {
   const handleDelete = () => {
     deleteExpense(expense.id);
     toast.success('Expense deleted', {
-      description: `${expense.category} - ${formatCurrency(expense.amount)}`,
+      description: `${category?.name || 'Unknown'} - ${formatCurrency(expense.amount)}`,
     });
   };
 
@@ -71,16 +75,29 @@ export function ExpenseRow({ expense }: ExpenseRowProps) {
           />
         </TableCell>
         <TableCell>
-          <Select value={editCategory} onValueChange={setEditCategory}>
+          <Select value={editCategoryId} onValueChange={setEditCategoryId}>
             <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {CATEGORIES.map((cat) => (
-                <SelectItem key={cat} value={cat}>
-                  {cat}
-                </SelectItem>
-              ))}
+              {categories.map((cat) => {
+                const IconComponent = LucideIcons[cat.icon as keyof typeof LucideIcons] as React.ComponentType<{ className?: string }>;
+                return (
+                  <SelectItem key={cat.id} value={cat.id}>
+                    <div className="flex items-center gap-2">
+                      {IconComponent && (
+                        <div
+                          className="flex items-center justify-center h-4 w-4 rounded"
+                          style={{ backgroundColor: cat.color + '20', color: cat.color }}
+                        >
+                          <IconComponent className="h-3 w-3" />
+                        </div>
+                      )}
+                      <span>{cat.name}</span>
+                    </div>
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
         </TableCell>
@@ -137,9 +154,22 @@ export function ExpenseRow({ expense }: ExpenseRowProps) {
     >
       <TableCell>{formatDate(expense.date)}</TableCell>
       <TableCell>
-        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-primary/10 text-primary">
-          {expense.category}
-        </span>
+        {category && (() => {
+          const IconComponent = LucideIcons[category.icon as keyof typeof LucideIcons] as React.ComponentType<{ className?: string }>;
+          return (
+            <div className="flex items-center gap-2">
+              {IconComponent && (
+                <div
+                  className="flex items-center justify-center h-7 w-7 rounded-md"
+                  style={{ backgroundColor: category.color + '20', color: category.color }}
+                >
+                  <IconComponent className="h-4 w-4" />
+                </div>
+              )}
+              <span className="font-medium">{category.name}</span>
+            </div>
+          );
+        })()}
       </TableCell>
       <TableCell className="text-muted-foreground">
         {expense.note || '-'}

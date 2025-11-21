@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, X } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,16 +22,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useExpenseActions } from '@/lib/useExpenseStore';
-import { CATEGORIES } from '@/types/expense';
+import { useExpenseActions, useCategories } from '@/lib/useExpenseStore';
 import { toast } from 'sonner';
 import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
 
 export function AddExpenseModal() {
   const { addExpense } = useExpenseActions();
+  const categories = useCategories();
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
   const [note, setNote] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -38,20 +39,22 @@ export function AddExpenseModal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!amount || !category) {
+    if (!amount || !categoryId) {
       toast.error('Please fill in required fields');
       return;
     }
 
+    const selectedCategory = categories.find(cat => cat.id === categoryId);
+
     addExpense({
       amount: parseFloat(amount),
-      category,
+      categoryId,
       note: note.trim() || undefined,
       date: new Date(date).toISOString(),
     });
 
     toast.success('Expense added successfully!', {
-      description: `${category} - $${parseFloat(amount).toFixed(2)}`,
+      description: `${selectedCategory?.name || 'Unknown'} - $${parseFloat(amount).toFixed(2)}`,
     });
 
     setShowConfetti(true);
@@ -59,7 +62,7 @@ export function AddExpenseModal() {
 
     // Reset form and close modal
     setAmount('');
-    setCategory('');
+    setCategoryId('');
     setNote('');
     setDate(new Date().toISOString().split('T')[0]);
     setOpen(false);
@@ -122,16 +125,30 @@ export function AddExpenseModal() {
 
               <div className="space-y-2">
                 <Label htmlFor="modal-category">Category *</Label>
-                <Select value={category} onValueChange={setCategory} required>
+                <Select value={categoryId} onValueChange={setCategoryId} required>
                   <SelectTrigger id="modal-category">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {CATEGORIES.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
-                      </SelectItem>
-                    ))}
+                    {categories.map((cat) => {
+                      const IconComponent = LucideIcons[cat.icon as keyof typeof LucideIcons] as React.ComponentType<{ className?: string }>;
+                      
+                      return (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          <div className="flex items-center gap-2">
+                            {IconComponent && (
+                              <div
+                                className="flex items-center justify-center h-5 w-5 rounded"
+                                style={{ backgroundColor: cat.color + '20', color: cat.color }}
+                              >
+                                <IconComponent className="h-3 w-3" />
+                              </div>
+                            )}
+                            <span>{cat.name}</span>
+                          </div>
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </div>

@@ -89,3 +89,49 @@ export const APP_INFO = {
   TAGLINE: 'Manage your finances',
 } as const;
 
+// Default expense categories with icons and colors
+export const DEFAULT_CATEGORIES = [
+  {
+    name: 'FastFood',
+    icon: 'UtensilsCrossed', // Lucide icon name
+    color: '#FF8042',
+  },
+  {
+    name: 'Drinks',
+    icon: 'Coffee',
+    color: '#8884D8',
+  },
+  {
+    name: 'Transportation',
+    icon: 'Car',
+    color: '#0088FE',
+  },
+  {
+    name: 'Clothing',
+    icon: 'Shirt',
+    color: '#00C49F',
+  },
+  {
+    name: 'Entertainment',
+    icon: 'Gamepad2',
+    color: '#FFBB28',
+  },
+  {
+    name: 'Bills & Utilities',
+    icon: 'Receipt',
+    color: '#82ca9d',
+  },
+  {
+    name: 'Healthcare',
+    icon: 'Heart',
+    color: '#ff7c7c',
+  },
+  {
+    name: 'Other',
+    icon: 'MoreHorizontal',
+    color: '#a4de6c',
+  },
+] as const;
+
+// Storage version for data migration
+export const STORAGE_VERSION = '1.0.0';

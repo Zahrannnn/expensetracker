@@ -42,10 +42,10 @@ export const filterExpensesByMonth = (
 
 export const filterExpensesByCategory = (
   expenses: Expense[],
-  category: string
+  categoryId: string
 ): Expense[] => {
-  if (!category || category === 'all') return expenses;
-  return expenses.filter((expense) => expense.category === category);
+  if (!categoryId || categoryId === 'all') return expenses;
+  return expenses.filter((expense) => expense.categoryId === categoryId);
 };
 
 export const getTotalAmount = (expenses: Expense[]): number => {
@@ -57,7 +57,7 @@ export const getExpensesByCategory = (
   expenses: Expense[]
 ): Record<string, number> => {
   return expenses.reduce((acc, expense) => {
-    acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+    acc[expense.categoryId] = (acc[expense.categoryId] || 0) + expense.amount;
     return acc;
   }, {} as Record<string, number>);
 };
@@ -99,7 +99,7 @@ export const exportToJSON = (expenses: Expense[]): void => {
 export const exportToCSV = (expenses: Expense[]): void => {
   const rows = expenses.map((expense) => [
     formatDate(expense.date),
-    expense.category,
+    expense.categoryId,
     expense.amount.toString(),
     expense.note || '',
   ]);

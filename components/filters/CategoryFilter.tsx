@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CATEGORIES } from '@/types/expense';
+import { useCategories } from '@/lib/useExpenseStore';
 
 interface CategoryFilterProps {
   value: string;
@@ -15,6 +15,8 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ value, onChange }: CategoryFilterProps) {
+  const categories = useCategories();
+  
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-[180px]">
@@ -22,9 +24,9 @@ export function CategoryFilter({ value, onChange }: CategoryFilterProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all">All categories</SelectItem>
-        {CATEGORIES.map((category) => (
-          <SelectItem key={category} value={category}>
-            {category}
+        {categories.map((category) => (
+          <SelectItem key={category.id} value={category.id}>
+            {category.name}
           </SelectItem>
         ))}
       </SelectContent>

@@ -1,10 +1,12 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useExpenses } from '@/lib/useExpenseStore';
+import { useCategories, useExpenses } from '@/lib/useExpenseStore';
 import { getExpensesByCategory, formatCurrency } from '@/lib/helpers';
+import { getCategoryName } from '@/lib/category-helpers';
 import { PieChartIcon } from 'lucide-react';
 
 const COLORS = [
@@ -21,15 +23,18 @@ const COLORS = [
 ];
 
 export function PieChartComponent() {
+  const t = useTranslations('analytics');
   const expenses = useExpenses();
+  const categories = useCategories();
 
   const data = useMemo(() => {
     const byCategory = getExpensesByCategory(expenses);
-    return Object.entries(byCategory).map(([name, value]) => ({
-      name,
+    return Object.entries(byCategory).map(([categoryId, value]) => ({
+      id: categoryId,
+      name: getCategoryName(categories, categoryId),
       value,
     }));
-  }, [expenses]);
+  }, [expenses, categories]);
 
   if (data.length === 0) {
     return (
@@ -37,12 +42,12 @@ export function PieChartComponent() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <PieChartIcon className="h-5 w-5" />
-            Spending by Category
+            {t('spendingByCategory')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[300px] items-center justify-center text-muted-foreground">
-            No data available
+            {t('noData')}
           </div>
         </CardContent>
       </Card>
@@ -54,7 +59,7 @@ export function PieChartComponent() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <PieChartIcon className="h-5 w-5" />
-          Spending by Category
+          {t('spendingByCategory')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -66,7 +71,7 @@ export function PieChartComponent() {
               cy="50%"
               labelLine={false}
               label={({ name, percent }) =>
-                `${name} ${(percent * 100).toFixed(0)}%`
+                `${name} ${((percent ?? 0) * 100).toFixed(0)}%`
               }
               outerRadius={80}
               fill="#8884d8"
@@ -74,7 +79,7 @@ export function PieChartComponent() {
             >
               {data.map((entry, index) => (
                 <Cell
-                  key={`cell-${index}`}
+                  key={`cell-${entry.id}`}
                   fill={COLORS[index % COLORS.length]}
                 />
               ))}
